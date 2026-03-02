@@ -1,4 +1,37 @@
+import { useState, useRef, useEffect } from "react";
+
 const Home = () => {
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  const [selectedDay, setSelectedDay] = useState<string>("Tuesday");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <header className="header">
@@ -23,7 +56,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* GRID WRAPPER */}
         <div className="content-grid">
           {/* LEFT COLUMN */}
           <div className="left-column">
@@ -35,25 +67,17 @@ const Home = () => {
               </div>
 
               <div className="weather-details">
-                <div className="detail-card">
-                  <p className="detail-title">Feels Like</p>
-                  <h3 className="detail-value">18°</h3>
-                </div>
-
-                <div className="detail-card">
-                  <p className="detail-title">Humidity</p>
-                  <h3 className="detail-value">46%</h3>
-                </div>
-
-                <div className="detail-card">
-                  <p className="detail-title">Wind</p>
-                  <h3 className="detail-value">14 km/h</h3>
-                </div>
-
-                <div className="detail-card">
-                  <p className="detail-title">Precipitation</p>
-                  <h3 className="detail-value">0 mm</h3>
-                </div>
+                {[
+                  ["Feels Like", "18°"],
+                  ["Humidity", "46%"],
+                  ["Wind", "14 km/h"],
+                  ["Precipitation", "0 mm"],
+                ].map(([title, value]) => (
+                  <div key={title} className="detail-card">
+                    <p className="detail-title">{title}</p>
+                    <h3 className="detail-value">{value}</h3>
+                  </div>
+                ))}
               </div>
             </section>
 
@@ -82,7 +106,44 @@ const Home = () => {
 
           {/* RIGHT COLUMN */}
           <section className="hourly-forecast">
-            <h3 className="section-title">Hourly forecast (Tuesday)</h3>
+            <div className="hourly-header">
+              <h3 className="section-title">
+                <span>Hourly forecast</span>{" "}
+                <span>
+                  {/* DROPDOWN */}
+                  <div className="dropdown-container" ref={dropdownRef}>
+                    <button
+                      className="dropdown-button"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      {selectedDay}
+                      <span className={`arrow ${isOpen ? "rotate" : ""}`}>
+                        ▼
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="dropdown-menu">
+                        {days.map((day) => (
+                          <button
+                            key={day}
+                            className={`dropdown-item ${
+                              selectedDay === day ? "active" : ""
+                            }`}
+                            onClick={() => {
+                              setSelectedDay(day);
+                              setIsOpen(false);
+                            }}
+                          >
+                            {day}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </span>
+              </h3>
+            </div>
 
             <div className="hourly-list">
               {[
