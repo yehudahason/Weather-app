@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var p = params.get("p");
+        var q = params.get("q");
+        var h = params.get("h");
+
+        if (p) {
+          // remove our redirect params
+          params.delete("p");
+          params.delete("q");
+          params.delete("h");
+
+          var clean =
+            window.location.pathname +
+            (params.toString() ? "?" + params.toString() : "");
+
+          // restore real URL
+          window.history.replaceState(null, "", clean);
+          window.history.replaceState(
+            null,
+            "",
+            window.location.pathname.replace(/\/$/, "") +
+              p +
+              (q ? q : "") +
+              (h ? h : ""),
+          );
+        }
+      })();
+    </script>
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/Weather-app/assets/images/favicon-32x32.png"
+    />
+
+    <title>Frontend Mentor | Weather app</title>
+    <script type="module" crossorigin src="/Weather-app/assets/index-CuBcu8Zs.js"></script>
+    <link rel="stylesheet" crossorigin href="/Weather-app/assets/index-Dcmcc4ov.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
