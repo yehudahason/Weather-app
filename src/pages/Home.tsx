@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from "react";
+import Units from "../components/Units";
+
+const base = import.meta.env.BASE_URL;
 
 const Home = () => {
   const days = [
@@ -36,8 +39,9 @@ const Home = () => {
     <>
       <header className="header">
         <div className="header-container">
-          <h2 className="logo">☀ Weather Now</h2>
-          <button className="units-button">Units ▼</button>
+          <img className="logo" src={`${base}/assets/images/logo.svg`} />
+          {/* <button className="units-button">Units ▼</button> */}
+          <Units />
         </div>
       </header>
 
