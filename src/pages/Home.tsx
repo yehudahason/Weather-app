@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import Units from "../components/Units";
-
+import getWeather from "../utils/getWeather";
 const base = import.meta.env.BASE_URL;
 
 const Home = () => {
@@ -29,6 +29,7 @@ const Home = () => {
     }
 
     document.addEventListener("mousedown", handleClickOutside);
+    getWeather(7);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -110,61 +111,82 @@ const Home = () => {
 
           {/* RIGHT COLUMN */}
           <section className="hourly-forecast">
-            <div className="hourly-header">
-              <h3 className="section-title">
-                <span>Hourly forecast</span>{" "}
-                <span>
-                  {/* DROPDOWN */}
-                  <div className="dropdown-container" ref={dropdownRef}>
-                    <button
-                      className="dropdown-button"
-                      onClick={() => setIsOpen(!isOpen)}
-                    >
-                      {selectedDay}
-                      <span className={`arrow ${isOpen ? "rotate" : ""}`}>
-                        ▼
-                      </span>
-                    </button>
+            <div className="hourly-scroll">
+              <div className="hourly-header">
+                <h3 className="section-title">
+                  <span>Hourly forecast</span>{" "}
+                  <span>
+                    {/* DROPDOWN */}
+                    <div className="dropdown-container" ref={dropdownRef}>
+                      <button
+                        className="dropdown-button"
+                        onClick={() => setIsOpen(!isOpen)}
+                      >
+                        {selectedDay}
+                        <span className={`arrow ${isOpen ? "rotate" : ""}`}>
+                          <img
+                            src={`${base}/assets/images/icon-dropdown.svg`}
+                            alt=""
+                          />
+                        </span>
+                      </button>
 
-                    {isOpen && (
-                      <div className="dropdown-menu">
-                        {days.map((day) => (
-                          <button
-                            key={day}
-                            className={`dropdown-item ${
-                              selectedDay === day ? "active" : ""
-                            }`}
-                            onClick={() => {
-                              setSelectedDay(day);
-                              setIsOpen(false);
-                            }}
-                          >
-                            {day}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                      {isOpen && (
+                        <div className="dropdown-menu">
+                          {days.map((day) => (
+                            <button
+                              key={day}
+                              className={`dropdown-item ${
+                                selectedDay === day ? "active" : ""
+                              }`}
+                              onClick={() => {
+                                setSelectedDay(day);
+                                setIsOpen(false);
+                              }}
+                            >
+                              {day}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </span>
+                </h3>
+              </div>
+
+              <div className="hourly-list">
+                {[
+                  ["0 PM", "☁ 20°"],
+                  ["1 PM", "☁ 20°"],
+                  ["2 PM", "☁ 20°"],
+                  ["3 PM", "☁ 20°"],
+                  ["4 PM", "⛅ 20°"],
+                  ["5 PM", "☀ 20°"],
+                  ["6 PM", "☁ 19°"],
+                  ["7 PM", "🌧 18°"],
+                  ["8 PM", "🌫 18°"],
+                  ["9 PM", "🌧 17°"],
+                  ["10 PM", "☁ 17°"],
+                  ["3 PM", "☁ 20°"],
+                  ["11 PM", "⛅ 20°"],
+                  ["12 PM", "☀ 20°"],
+                  ["13 PM", "☁ 19°"],
+                  ["14 PM", "🌧 18°"],
+                  ["15 PM", "🌫 18°"],
+                  ["16 PM", "🌧 17°"],
+                  ["18 PM", "☁ 17°"],
+                  ["19 PM", "☁ 17°"],
+                  ["20 PM", "☁ 17°"],
+                  ["21 PM", "☁ 17°"],
+                  ["22 PM", "☁ 17°"],
+                  ["23 PM", "☁ 17°"],
+                ].map(([time, temp]) => (
+                  <div key={time} className="hour-item">
+                    <p className="hour-time">{time}</p>
+                    <p className="hour-temp">{temp}</p>
                   </div>
-                </span>
-              </h3>
-            </div>
-
-            <div className="hourly-list">
-              {[
-                ["3 PM", "☁ 20°"],
-                ["4 PM", "⛅ 20°"],
-                ["5 PM", "☀ 20°"],
-                ["6 PM", "☁ 19°"],
-                ["7 PM", "🌧 18°"],
-                ["8 PM", "🌫 18°"],
-                ["9 PM", "🌧 17°"],
-                ["10 PM", "☁ 17°"],
-              ].map(([time, temp]) => (
-                <div key={time} className="hour-item">
-                  <p className="hour-time">{time}</p>
-                  <p className="hour-temp">{temp}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </section>
         </div>

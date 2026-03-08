@@ -126,7 +126,10 @@ body {
 
 /* ===== WEATHER CARD ===== */
 .weather-main {
-  background: linear-gradient(135deg, #4c5df4, #6c63ff);
+  background-image: url("/assets/images/bg-today-small.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 40px;
   border-radius: 25px;
 }
@@ -179,7 +182,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  font-size: 18px;
+  font: var(--text-5);
 }
 
 .daily-cards {
@@ -212,24 +215,57 @@ body {
 }
 
 /* ===== HOURLY ===== */
+/* ===== HOURLY CARD ===== */
 .hourly-forecast {
   background: #1e244f;
-  padding: 25px;
+  padding: 0px;
   border-radius: 25px;
   height: fit-content;
   min-width: 0;
+
+  overflow: hidden; /* IMPORTANT */
 }
 
+/* scroll container */
+.hourly-scroll {
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+}
+
+/* list spacing */
 .hourly-list {
   margin-top: 15px;
 }
 
+/* scrollbar */
+.hourly-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.hourly-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hourly-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+}
+
+.hourly-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
 .hour-item {
   display: flex;
+  font: var(--text-5);
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 16px;
+  height: 60px;
   min-width: 0;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin-bottom: 16px;
 }
 
 .hour-item:last-child {
@@ -263,7 +299,7 @@ body {
   color: white;
   border: none;
   padding: 10px 9px;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   justify-content: space-around;
@@ -289,7 +325,7 @@ body {
 .dropdown-menu {
   position: absolute;
   top: 110%;
-  left: -30px;
+  left: -50px;
   width: 170px;
   background-color: #374151;
   border-radius: 14px;
@@ -443,6 +479,9 @@ body {
 /* TABLET ≥768px */
 /* ========================= */
 @media (min-width: 720px) {
+  .weather-main {
+    background-image: url("/assets/images/bg-today-large.svg");
+  }
   .main {
     padding: 0 40px 60px 40px;
   }
