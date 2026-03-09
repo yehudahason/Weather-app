@@ -16,8 +16,12 @@ export async function getCity(city: string) {
   );
   const data = await res.json();
   console.log(data);
+  getWeather(city);
 }
-// const results = searchCities("haif");
-// getWeather(results[0].name);
 
-// console.log(results);
+export function getCountryName(code: string) {
+  const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+  return regionNames.of(code);
+}
+
+console.log(getCountryName("IL")); // Israel
