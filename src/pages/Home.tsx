@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import Units from "../components/Units";
-import getWeather from "../utils/getWeather";
+import { getWeather } from "../utils/getWeather";
+import { getCity } from "../utils/getWeather";
+
 const base = import.meta.env.BASE_URL;
 
 const Home = () => {
@@ -29,7 +31,7 @@ const Home = () => {
     }
 
     document.addEventListener("mousedown", handleClickOutside);
-    getWeather(7);
+    getCity("netivot");
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
